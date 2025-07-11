@@ -64,15 +64,26 @@ export function activate(context: vscode.ExtensionContext) {
 					placeHolder: 'Please input $injected variable'
 				});
 			}
-
+			let namespace = '';
+			const extemsion = chosenFile.split('.').slice(1).join('.');
+			if (extemsion === 'cs') {
+				// 查找当前文件夹下第一个 .cs 文件
+				const csFiles = fs.readdirSync(folder.fsPath).filter(f => f.endsWith('.cs'));
+				if (csFiles.length > 0) {
+					const csFilePath = path.join(folder.fsPath, csFiles[0]);
+					const csContent = await fs.promises.readFile(csFilePath, 'utf-8');
+					const nsMatch = csContent.match(/namespace\s+([\w\.]+)/);
+					if (nsMatch && nsMatch[1]) {
+						namespace = nsMatch[1];
+					}
+				}
+			}
 			const renderedString = Velocity.render(template, {
 				name,
 				injected: $injected,
+				namespace,
 			});
-
-			const extemsion = chosenFile.split('.').slice(1).join('.');
 			const filename = `${name}.${extemsion}`;
-
 			await fs.promises.writeFile(
 				path.join(folder.fsPath, filename),
 				renderedString.trim()
