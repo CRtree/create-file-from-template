@@ -8,7 +8,11 @@ Our target is help developers done their work faster and faster.
 2. It will prompt an input to ask you the template name, my suggestion of your template name is [template-name].[template-extension], example: example.ts, example.service.ts, my-template.js, ...
 3. Hit Enter after you type template name, it will open the template for you to edit it. <br>
 We using Velocity, you can learn more about it [here](https://velocity.apache.org/engine/1.7/user-guide.html).
-You can use $name variable, we will ask it when you create a file
+4. You can use below variables.<br/>
+    $name: file name, we will ask it when you create a file;<br/>
+    $injected: any content you want to add, we will ask it when you create a file;<br/>
+    $namespace: only for C# class file, we will try to parse and extract namespace from other class files in current folder; 
+    
 
 ### 1. Create a file from template
 1. On the explorer (on the left menu), right click on the folder that you want to create a file.
